@@ -18,6 +18,11 @@ ds = [[None,None],
       [108,49],
       [108,49],
       [1,5292],
+      [None, None],
+      [1,4],
+      [45, 5292],
+      [45,4],
+      [45,45],
       ]
 
 # defined your arch
@@ -27,7 +32,7 @@ arch = [
     to_begin(),
 
     # input
-    to_input( 'genos_flip.png', width=1.5, height=14), # might need jpg...
+    to_input( 'genos_flip.png', width=1, height=14), # might need jpg...
 
     # invisible layer, only for drawing a connection to the input image
     to_Conv("input", "", "", offset="(-2.5,0,0)", to="(0,0,0)", height=0, depth=0, width=0 ),
@@ -54,16 +59,32 @@ arch = [
     to_connection( "dense0", "flatten"),
 
 
-    # # locs
-    # to_Dense("locs", 2, 2, offset="(2,0,0)", to="(flatten-south)", height=5, depth=5, width=1),
-    
-    
-    
-    # # feature block
-    # to_Dense("feature_block", 45, 5292, offset="(5,0,0)", to="(flatten-east)", height=120, depth=45, width=1 ),
+    # locs
+    to_input( 'locs_flip.png', to='(2,-9.0,0)', width=4, height=1),
+    to_DensePurp("locs", "","", offset="(-0.5,-8.6,0)", to="(dense0-south)", height=0, depth=0, width=0),
+    to_DensePurp("locs2", ds[9][0], ds[9][1], offset="(-0.1,-2,0)", to="(flatten-south)", height=my_trans(ds[9][1])*scal, depth=my_trans(ds[9][0])*scal, width=1),
+    to_connection( "locs", "locs2"),
+    to_Dense("pencil", "", "", offset="(1,0,0)", to="(flatten-east)", height=my_trans(ds[7][1])*scal, depth=my_trans(ds[7][0])*scal, width=1),
+    to_connection( "flatten", "pencil"),
+    to_DensePurp("eraser", ds[9][0], ds[7][1]+ds[9][1], offset="(-0.1,-0.2,0)", to="(pencil-south)", height=my_trans(ds[9][1])*scal, depth=my_trans(ds[9][0])*scal, width=1),    
+    to_connection( "locs2", "eraser"),
+
+    # invisible layer for some connections
+    to_Dense("invis1", "","", offset="(1,0,0)", to="(pencil-east)", height=0, depth=0, width=0),
+    to_connection( "pencil", "invis1"),    
+    to_Dense("invis2", "","", offset="(4,0,0)", to="(invis1-east)", height=0, depth=0, width=0),
+            
+    # feature block
+    to_Dense("feature_block", "", "", offset="(1,0,0)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+    to_connection( "invis2", "feature_block"),
+    to_DensePurp("locs3", ds[11][0], ds[10][1]+ds[11][1], offset="(-0.1,-0.2,0)", to="(feature_block-south)", height=my_trans(ds[11][1])*scal, depth=my_trans(ds[11][0])*scal, width=1),
 
 
-
+    # dense and output
+    to_Dense("dense1", ds[12][0], ds[12][1], offset="(1,0,0)", to="(feature_block-east)", height=my_trans(ds[12][1])*scal, depth=my_trans(ds[12][0])*scal, width=1),
+    to_connection( "feature_block", "dense1"),
+    to_Dense("output", 1, 1, offset="(1,0,0)", to="(dense1-east)", height=my_trans(1)*scal, depth=my_trans(1)*scal, width=1),
+    to_connection( "dense1", "output"),
 
 
 

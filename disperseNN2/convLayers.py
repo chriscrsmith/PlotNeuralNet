@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../')
-from pycore.tikzeng import *
+from my_layers import *
 
 # defined your arch
 arch = [
@@ -9,31 +9,23 @@ arch = [
     to_begin(),
 
     # input
-    to_input( '4genos.png', width=10, height=24), # might need jpg...
+    to_input( '4genos.png', width=3, height=24), # might need jpg...
 
-    # conv + pooling layers
-    to_Conv("conv1", 64, 500000, offset="(0,0,0)", to="(0,0,0)", height=120, depth=10, width=1 ),
-    to_Pool("pool1", offset="(1,0,0)", to="(conv1-east)", height=60, depth=10, width=1),
+    # downsampling/encoding layers
+    to_Conv("conv0", 64, 500000, offset="(0,0,0)", to="(0,0,0)", height=120, depth=10, width=1 ),
+    to_Pool("pool0", offset="(1,0,0)", to="(conv0-east)", height=60, depth=10, width=1),
 
-    # to_Conv("conv2", 108, 49999, offset="(3,0,0)", to="(pool1-east)", height=60, depth=20, width=1 ),
-    # to_connection( "pool1", "conv2"),
-    # to_Pool("pool2", offset="(1,0,0)", to="(conv2-east)", height=30, depth=20, width=1),
+    to_Conv("conv1", 108, 49999, offset="(3,0,0)", to="(pool0-east)", height=60, depth=20, width=1 ),
+    to_connection( "pool0", "conv1"),
+    to_Pool("pool1", offset="(1,0,0)", to="(conv1-east)", height=30, depth=20, width=1),
 
-    to_Conv("conv3", 152, 4999, offset="(3,0,0)", to="(pool1-east)", height=30, depth=30, width=1 ),
-    to_connection( "pool1", "conv3"),
-    to_Pool("pool3", offset="(1,0,0)", to="(conv3-east)", height=15, depth=30, width=1 ),
+    to_Dense("dense0", offset="(3,0,0)", to="(pool1-east)", height=5, depth=30, width=1),
+    to_connection("pool1", "dense0"),
 
-    # to_Conv("conv4", 196, 499, offset="(3,0,0)", to="(pool3-east)", height=15, depth=40, width=1 ),
-    # to_connection( "pool3", "conv4"),
-    # to_Pool("pool4", offset="(1,0,0)", to="(conv4-east)", height=7.5, depth=40, width=1),
-
+    
     # flatten  + dense
-    to_Conv("flatten", 1, 9604, offset="(3,0,0)", to="(pool3-east)", height=40, depth=1, width=1 ),
-    to_connection( "pool3", "flatten"),
-    to_Conv("d1", 1, 128, offset="(1,0,0)", to="(flatten-east)", height=10, depth=1, width=1 ),
-    to_connection( "flatten", "d1"),
-    to_Conv("d2", 1, 128, offset="(1,0,0)", to="(d1-east)", height=10, depth=1, width=1 ),
-    to_connection( "d1", "d2"),
+    to_Dense("flatten", 1, 9604, offset="(2,0,0)", to="(dense0-east)", height=40, depth=1, width=1 ),
+    to_connection( "dense0", "flatten"),
 
     to_end(),
 

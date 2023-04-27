@@ -31,11 +31,11 @@ arch = [
     to_DensePurp("locs1", ds[1][0], ds[0][1]+ds[1][1], offset="(-0.1,-0.2,0)", to="(feature_block1-south)", height=my_trans(ds[1][1])*scal, depth=my_trans(ds[1][0])*scal, width=1),
 
     # map 1
-    to_Dense("dense0", ds[2][0], ds[2][1], offset="(1,0,0)", to="(feature_block1-east)", height=my_trans(ds[2][1])*scal, depth=my_trans(ds[2][0])*scal, width=1),
+    to_DenseOrange("dense0", ds[2][0], ds[2][1], offset="(1,0,0)", to="(feature_block1-east)", height=my_trans(ds[2][1])*scal, depth=my_trans(ds[2][0])*scal, width=1),
     to_connection("feature_block1", "dense0"),                                                                                                                       
 
     # upsample
-    to_Dense("upsample1", ds[3][0], ds[3][1], offset="(1,0,0)", to="(dense0-east)", height=my_trans(ds[3][1])*scal, depth=my_trans(ds[3][0])*scal, width=1),
+    to_DenseOrange("upsample1", ds[3][0], ds[3][1], offset="(1,0,0)", to="(dense0-east)", height=my_trans(ds[3][1])*scal, depth=my_trans(ds[3][0])*scal, width=1),
     to_connection("dense0", "upsample1"),
 
     ########################### these offsets work great for width=100
@@ -51,31 +51,23 @@ arch = [
     to_Dense("feature_block2", "", "", offset="(1.25,0,0)", to="(upsample1-east)", height=my_trans(ds[0][1])*scal, depth=my_trans(ds[0][0])*scal, width=1 ),                                   
     to_connection("upsample1", "feature_block2"),                                                                                                                                           
     to_DensePurp("locs2", ds[1][0], ds[0][1]+ds[1][1], offset="(-0.1,-0.2,0)", to="(feature_block2-south)", height=my_trans(ds[1][1])*scal, depth=my_trans(ds[1][0])*scal, width=1),        
-    to_Dense("padding2", "", "", offset="(-0.41, -0.4, -1.75)", to="(feature_block2-east)", height=my_trans(ds[4][1])*scal, depth=my_trans(ds[4][0])*scal, width=1 ), # SUPER painstaking
-    to_Dense("concat2", ds[3][0], ds[3][1], offset="(-0.475, -9, -0.06)", to="(padding2-east)", height=my_trans(ds[3][1])*scal, depth=my_trans(ds[3][0])*scal, width=1),                     
+    to_DenseGrey("padding2", "", "", offset="(-0.475, -0.475, -1.925)", to="(feature_block2-east)", height=my_trans(ds[4][1])*scal, depth=my_trans(ds[4][0])*scal, width=1 ), # SUPER painstaking
+    to_DenseOrange("concat2", ds[3][0], ds[3][1], offset="(-0.48, -9, -0.0825)", to="(padding2-east)", height=my_trans(ds[3][1])*scal, depth=my_trans(ds[3][0])*scal, width=1),                     
     
     # map 2                                                                                                                                                                                 
-    to_Dense("dense2", ds[3][0], ds[3][1], offset="(1.5,0,0)", to="(feature_block2-east)", height=my_trans(ds[3][1])*scal, depth=my_trans(ds[3][0])*scal, width=1),
+    to_DenseOrange("dense2", ds[3][0], ds[3][1], offset="(1.5,0,0)", to="(feature_block2-east)", height=my_trans(ds[3][1])*scal, depth=my_trans(ds[3][0])*scal, width=1),
     to_connection("feature_block2", "dense2"),
 
     # upsample                                                                                                                                                                              
-    to_Dense("upsample2", ds[5][0], ds[5][1], offset="(1.75,0,0)", to="(dense2-east)", height=my_trans(ds[5][1])*scal, depth=my_trans(ds[5][0])*scal, width=1),
+    to_DenseOrange("upsample2", ds[5][0], ds[5][1], offset="(1.75,0,0)", to="(dense2-east)", height=my_trans(ds[5][1])*scal, depth=my_trans(ds[5][0])*scal, width=1),
     to_connection("dense2", "upsample2"),
 
     # feature block                                                                                                                                                                         
     to_Dense("feature_block3", "", "", offset="(1.5,0,0)", to="(upsample2-east)", height=my_trans(ds[0][1])*scal, depth=my_trans(ds[0][0])*scal, width=1 ),
     to_connection("upsample2", "feature_block3"),
     to_DensePurp("locs3", ds[1][0], ds[0][1]+ds[1][1], offset="(-0.1,-0.2,0)", to="(feature_block3-south)", height=my_trans(ds[1][1])*scal, depth=my_trans(ds[1][0])*scal, width=1),
-    to_Dense("padding3", "", "", offset="(-0.475, -0.475, -1.75)", to="(feature_block3-east)", height=my_trans(ds[6][1])*scal, depth=my_trans(ds[6][0])*scal, width=1 ), # SUPER painstaking
-    to_Dense("concat3", ds[5][0], ds[5][1], offset="(-0.475, -8.75, 0)", to="(padding3-east)", height=my_trans(ds[5][1])*scal, depth=my_trans(ds[5][0])*scal, width=1),
-
-    # # map 1
-    # to_Dense("dense3", ds[5][0], ds[5][1], offset="(1.5,0,0)", to="(feature_block3-east)", height=my_trans(ds[5][1])*scal, depth=my_trans(ds[5][0])*scal, width=1),
-    # to_connection("feature_block3", "dense3"),
-    
-    # # upsample                                                                                                                                              
-    # to_Dense("upsample3", ds[7][0], ds[7][1], offset="(1.5,0,0)", to="(dense3-east)", height=my_trans(ds[7][1])*scal, depth=my_trans(ds[7][0])*scal, width=1),
-    # to_connection("dense3", "upsample3"),
+    to_DenseGrey("padding3", "", "", offset="(-0.475, -0.475, -2.95)", to="(feature_block3-east)", height=my_trans(ds[6][1])*scal, depth=my_trans(ds[6][0])*scal, width=1 ), # SUPER painstaking
+    to_DenseOrange("concat3", ds[5][0], ds[5][1], offset="(-0.475, -10, -0.05)", to="(padding3-east)", height=my_trans(ds[5][1])*scal, depth=my_trans(ds[5][0])*scal, width=1),
 
     # invisible layer for drawing connection
     to_Dense("invis1", "","", offset="(2,0,0)", to="(feature_block3-east)", height=0, depth=0, width=0),
@@ -105,4 +97,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-OA
+

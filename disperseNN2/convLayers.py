@@ -20,7 +20,7 @@ ds = [[None,None], # 0
       [1,128], # 7
       [None, None], # 8
       [1,1], # 9
-      [45, 128], # 10
+      [1, 128], # 10
       [45, 1], # 11
       [45, 128], # 12                                                                                                                                                          
       [45, 128], # 13
@@ -78,10 +78,18 @@ arch = [
     to_connection( "dense0", "invis1"),    
     to_Dense("invis2", "","", offset="(3,0,0)", to="(invis1-east)", height=0, depth=0, width=0),
             
+    # # feature block
+    # to_Dense("feature_block", 1, ds[10][1], offset="(1,0,0)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+    # to_connection( "invis2", "feature_block"),
+    # #to_DensePurp("locs3", ds[11][0], ds[10][1]+ds[11][1], offset="(-0.1,-0.1,0)", to="(feature_block-south)", height=my_trans(ds[11][1])*scal, depth=my_trans(ds[11][0])*scal, width=1),
+
     # feature block
-    to_Dense("feature_block", 1, ds[10][1], offset="(1,0,0)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
-    to_connection( "invis2", "feature_block"),
-    #to_DensePurp("locs3", ds[11][0], ds[10][1]+ds[11][1], offset="(-0.1,-0.1,0)", to="(feature_block-south)", height=my_trans(ds[11][1])*scal, depth=my_trans(ds[11][0])*scal, width=1),
+    to_Dense("feature_block", "","", offset="(1,0,0)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+    to_Dense("feature_block2", "","",  offset="(1,0,0.5)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+    to_Dense("feature_block3", "","",  offset="(1,0,1)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+    to_Dense("feature_block4", "","",  offset="(1,0,1.5)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+    to_Dense("feature_block5", "","",  offset="(1,0,2)", to="(invis2-east)", height=my_trans(ds[10][1])*scal, depth=my_trans(ds[10][0])*scal, width=1 ),
+
 
     # dense and output
     to_Dense("dense1", 1, ds[12][1], offset="(0.75,0,0)", to="(feature_block-east)", height=my_trans(ds[12][1])*scal, depth=my_trans(ds[12][0])*scal, width=1),
@@ -90,7 +98,7 @@ arch = [
     # to_connection( "dense1", "dense2"),
     to_Dense("output", 1, 1, offset="(0.75,0,0)", to="(dense1-east)", height=my_trans(1)*scal, depth=my_trans(1)*scal, width=1),
     to_connection( "dense1", "output"),
-
+    
     to_end(),
 
     ]

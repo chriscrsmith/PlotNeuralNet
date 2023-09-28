@@ -1,0 +1,125 @@
+
+\documentclass[border=8pt, multi, tikz]{standalone} 
+\usepackage{import}
+\subimport{../layers/}{init}
+\usetikzlibrary{positioning}
+\usetikzlibrary{3d} %for including external image 
+
+\def\ConvColor{rgb:yellow,5;red,2.5;white,5}
+\def\DenseColor{rgb:green,5; black, 2}                                                                                                                                                         
+\def\ConvReluColor{rgb:yellow,5;red,5;white,5}
+\def\PoolColor{rgb:red,1;black,0.3}
+\def\UnpoolColor{rgb:blue,2;green,1;black,0.3}
+\def\FcColor{rgb:blue,5;red,2.5;white,5}
+\def\FcReluColor{rgb:blue,5;red,5;white,4}
+\def\SoftmaxColor{rgb:magenta,5;black,7}   
+\def\SumColor{rgb:blue,5;green,15}
+
+\newcommand{\copymidarrow}{\tikz \draw[-Stealth,line width=0.8mm,draw={rgb:blue,4;red,1;green,1;black,3}] (-0.3,0) -- ++(0.3,0);}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzstyle{connection}=[ultra thick,every node/.style={sloped,allow upside down},draw=\edgecolor,opacity=0.7]
+\tikzstyle{copyconnection}=[ultra thick,every node/.style={sloped,allow upside down},draw={rgb:blue,4;red,1;green,1;black,3},opacity=0.7]
+
+\node[canvas is zy plane at x=0] (temp) at (-3,0,0) {\includegraphics[width=2cm,height=24cm]{genos_flip.png}};
+
+\pic[shift={(-3,0,0)}] at (0,0,0) 
+    {Box={
+        name=input,
+        caption= ,
+        xlabel={{None, }},
+        zlabel=64,
+        fill=\ConvColor,
+        height=0,
+        width=0,
+        depth=0
+        }
+    };
+
+\pic[shift={(0,0,0)}] at (0,0,0) 
+    {Box={
+        name=conv0,
+        caption= ,
+        xlabel={{500000, }},
+        zlabel=64,
+        fill=\ConvColor,
+        height=120,
+        width=1,
+        depth=10
+        }
+    };
+
+\draw [connection]  (input-east)    -- node {\midarrow} (conv0-west);
+
+\pic[shift={ (1,0,0) }] at (conv0-east) 
+    {Box={
+        name=pool0,
+        caption= ,
+        fill=\PoolColor,
+        opacity=0.5,
+        height=60,
+        width=1,
+        depth=10
+        }
+    };
+
+\pic[shift={(3,0,0)}] at (pool0-east) 
+    {Box={
+        name=conv1,
+        caption= ,
+        xlabel={{49999, }},
+        zlabel=108,
+        fill=\ConvColor,
+        height=60,
+        width=1,
+        depth=20
+        }
+    };
+
+\draw [connection]  (pool0-east)    -- node {\midarrow} (conv1-west);
+
+\pic[shift={ (1,0,0) }] at (conv1-east) 
+    {Box={
+        name=pool1,
+        caption= ,
+        fill=\PoolColor,
+        opacity=0.5,
+        height=30,
+        width=1,
+        depth=20
+        }
+    };
+                                                                                                         
+\pic[shift={(3,0,0)}] at (pool1-east)                                                                          
+    {Box={                                                                                                              
+        name=dense0,                                                                                           
+        caption= ,                                                                                     
+        xlabel={{64, }},                                                                            
+        zlabel=256,                                                                                  
+        fill=\DenseColor,                                                                                                
+        height=5,                                                                                   
+        width=1,                                                                                     
+        depth=30                                                                                      
+        }                                                                                                               
+    };                                                                                                                  
+
+\draw [connection]  (pool1-east)    -- node {\midarrow} (dense0-west);
+                                                                                                         
+\pic[shift={(2,0,0)}] at (dense0-east)                                                                          
+    {Box={                                                                                                              
+        name=flatten,                                                                                           
+        caption= ,                                                                                     
+        xlabel={{9604, }},                                                                            
+        zlabel=1,                                                                                  
+        fill=\DenseColor,                                                                                                
+        height=40,                                                                                   
+        width=1,                                                                                     
+        depth=1                                                                                      
+        }                                                                                                               
+    };                                                                                                                  
+
+\draw [connection]  (dense0-east)    -- node {\midarrow} (flatten-west);
+
+\end{tikzpicture}
+\end{document}

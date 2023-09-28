@@ -76,14 +76,14 @@ arch = [
 
     # # locs input
     # to_input( 'locs_flip.png', to='(4.75,-5.5,0)', width=4, height=1),
-    # to_DensePurp("locs", "","", offset="(3,-5.5)", to="(pool1-south)", height=0, depth=0, width=0), # invisible, for connecting locs-input to first 1x1 square
-    # to_DensePurp("locs2", ds[9][0], ds[9][1], offset="(3,-6.65,0)", to="(pool1-south)", height=my_trans(ds[9][1])*scal, depth=my_trans(ds[9][0])*scal, width=1), # 1x1 square
+    # to_Purp("locs", "","", offset="(3,-5.5)", to="(pool1-south)", height=0, depth=0, width=0), # invisible, for connecting locs-input to first 1x1 square
+    # to_Purp("locs2", ds[9][0], ds[9][1], offset="(3,-6.65,0)", to="(pool1-south)", height=my_trans(ds[9][1])*scal, depth=my_trans(ds[9][0])*scal, width=1), # 1x1 square
     # to_connection( "locs", "locs2"),
 
     # feature vector
-    to_Dense("pencil", "","", offset="(0.5,0,0)", to="(pool1-east)", height=my_trans(ds[6][1])*scal, depth=my_trans(ds[6][0])*scal, width=1),
+    to_Grey("pencil", "","", offset="(0.5,0,0)", to="(pool1-east)", height=my_trans(ds[6][1])*scal, depth=my_trans(ds[6][0])*scal, width=1),
     to_connection( "pool1", "pencil"),
-    # to_DensePurp("eraser", ds[9][0], ds[6][1]+ds[9][1], offset="(-0.1,-0.1,0)", to="(pencil-south)", height=my_trans(ds[9][1])*scal, depth=my_trans(ds[9][0])*scal, width=1),
+    # to_Purp("eraser", ds[9][0], ds[6][1]+ds[9][1], offset="(-0.1,-0.1,0)", to="(pencil-south)", height=my_trans(ds[9][1])*scal, depth=my_trans(ds[9][0])*scal, width=1),
     # to_connection( "locs2", "eraser"),
 
     # dense layers
@@ -105,7 +105,7 @@ arch = [
     to_connection( "invis2", "invis3"),
 
     # dense 
-    to_Dense("dense1", "", "", offset="(0.5,0,0)", to="(feature_block-east)", height=my_trans(ds[12][0])*scal, depth=my_trans(ds[12][1])*scal, width=1),
+    to_Grey("dense1", "", "", offset="(0.5,0,0)", to="(feature_block-east)", height=my_trans(ds[12][0])*scal, depth=my_trans(ds[12][1])*scal, width=1),
     to_connection( "feature_block", "dense1"),
     # to_Dense("dense2", ds[13][0], ds[13][1], offset="(0.75,0,0)", to="(dense1-east)", height=my_trans(ds[13][1])*scal, depth=my_trans(ds[13][0])*scal, width=1),
     # to_connection( "dense1", "dense2"),
@@ -136,16 +136,16 @@ arch = [
 
 
 
-    
+
     ########################## COMBINED ###########################################
-    to_Dense("dense4", "", "", offset="(0.75,2,0)", to="(dense3-east)", height=my_trans(ds2[0][0])*scal, depth=my_trans(ds2[0][1])*scal, width=1),
+    to_Purp("dense4", "", "", offset="(0.75,2,0)", to="(dense3-east)", height=my_trans(ds2[0][0])*scal, depth=my_trans(ds2[0][1])*scal, width=1),
     to_connection("dense1", "dense4"),
     to_connection("dense3", "dense4"),
 
     to_Dense("dense5", "", "", offset="(0.25,0,0)", to="(dense4-east)", height=my_trans(ds2[1][0])*scal, depth=my_trans(ds2[1][1])*scal, width=1),
     to_connection("dense4", "dense5"),
 
-    to_Dense("dense6", "", "", offset="(0.25,0,0)", to="(dense5-east)", height=my_trans(ds2[2][0])*scal, depth=my_trans(ds2[2][1])*scal, width=1),
+    to_Pool("dense6", "", "", offset="(0.25,0,0)", to="(dense5-east)", height=my_trans(ds2[2][0])*scal, depth=my_trans(ds2[2][1])*scal, width=1),
     to_connection("dense5", "dense6"),
 
     to_Dense("dense7", "", "", offset="(0.25,0,0)", to="(dense6-east)", height=my_trans(ds2[2][0])*scal, depth=my_trans(ds2[2][1])*scal, width=1),
@@ -157,7 +157,7 @@ arch = [
     to_Dense("dense9", "", "", offset="(0.25,0,0)", to="(dense8-east)", height=my_trans(ds2[3][0])*scal, depth=my_trans(ds2[3][1])*scal, width=1),
     to_connection("dense8", "dense9"),
 
-    to_Dense("dense10", "", "", offset="(0.25,0,0)", to="(dense9-east)", height=my_trans(ds2[4][0])*scal, depth=my_trans(ds2[4][1])*scal, width=1),
+    to_Grey("dense10", "", "", offset="(0.25,0,0)", to="(dense9-east)", height=my_trans(ds2[4][0])*scal, depth=my_trans(ds2[4][1])*scal, width=1),
     to_connection("dense9", "dense10"),
 
 

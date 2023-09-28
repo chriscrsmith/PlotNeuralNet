@@ -16,6 +16,7 @@ def to_cor():
 \def\ConvColor{rgb:yellow,5;red,2.5;white,5}
 \def\DenseColor{rgb:green,5; black, 2}
 \def\PurpColor{rgb:red,5; blue,5; black, 2}
+\def\GreyColor{rgb:white,1;black,1}                                                                                                                                                            
 \def\ConvReluColor{rgb:yellow,5;red,5;white,5}
 \def\PoolColor{rgb:red,1;black,0.3}
 \def\UnpoolColor{rgb:blue,2;green,1;black,0.3}
@@ -76,7 +77,7 @@ def to_Dense( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", wid
 """
 
 
-def to_DensePurp( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
+def to_Purp( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
     return r"""                                                                                                          
 \pic[shift={"""+ offset +"""}] at """+ to +"""                                                                           
     {Box={                                                                                                               
@@ -90,6 +91,22 @@ def to_DensePurp( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)",
         depth="""+ str(depth) +"""                                                                                       
         }                                                                                                                
     };                                                                                                                   
+"""
+
+def to_Grey( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
+    return r"""                                                                                                              
+\pic[shift={"""+ offset +"""}] at """+ to +"""                                                                               
+    {Box={                                                                                                                   
+        name=""" + name +""",                                                                                                
+        caption="""+ caption +r""",                                                                                          
+        xlabel={{"""+ str(n_filer) +""", }},                                                                                 
+        zlabel="""+ str(s_filer) +""",                                                                                       
+        fill=\GreyColor,                                                                                                     
+        height="""+ str(height) +""",                                                                                        
+        width="""+ str(width) +""",                                                                                          
+        depth="""+ str(depth) +"""                                                                                           
+        }                                                                                                                    
+    };                                                                                                                       
 """
 
 
@@ -159,7 +176,6 @@ def to_ConvRes( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", w
         xlabel={{ """+ str(n_filer) + """, }},
         zlabel="""+ str(s_filer) +r""",
         fill={rgb:white,1;black,3},
-        bandfill={rgb:white,1;black,2},
         opacity="""+ str(opacity) +""",
         height="""+ str(height) +""",
         width="""+ str(width) +""",

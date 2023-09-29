@@ -34,7 +34,7 @@ ds2 = [[pairs*width**2,128], # 0
       [pairs*width**2,64], # 1    
       [width**2,64], # 2   
       [width**2,2], # 3    
-       [width,width], # 4   
+       [width,width,2], # 4   
 #       [108,49], # 5    
 #       [1,5292], # 6    
 #       [1,128], # 7     
@@ -157,7 +157,7 @@ arch = [
     to_Dense("dense9", "", "", offset="(0.25,0,0)", to="(dense8-east)", height=my_trans(ds2[3][0])*scal, depth=my_trans(ds2[3][1])*scal, width=1),
     to_connection("dense8", "dense9"),
 
-    to_Grey("dense10", "", "", offset="(0.25,0,0)", to="(dense9-east)", height=my_trans(ds2[4][0])*scal, depth=my_trans(ds2[4][1])*scal, width=1),
+    to_Grey("dense10", "", "", offset="(0.25,0,0)", to="(dense9-east)", height=my_trans(ds2[4][0])*scal, depth=my_trans(ds2[4][1])*scal, width=my_trans(ds2[4][2])*scal),
     to_connection("dense9", "dense10"),
 
 
